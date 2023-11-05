@@ -24,15 +24,12 @@ create = [1 1 1 1];
 
 % FE matrix dimensions are different for the different test cases. Set here
 % the wanted sizes for different test cases.
-% sizes = [25,50,75,100,125,150,200,250,300,350,400,450,500,600,700,...
-%     800,900,1000]';
-% sizes_cond = [sizes; 1500; 2000; 2500; 3000; 3500; 4000; 4500; 5000];
-% sizes_discrete = [20,30,40,50,75,100,125,150,200,250,300,350,400,450,...
-%     500,600,700,800,900,1000]';
-sizes = [50,100]';
-sizes_cond = sizes;
-sizes_discrete = sizes;
-
+sizes = [25,50,75,100,125,150,200,250,300,350,400,450,500,600,700,...
+       800,900,1000]';
+sizes_cond = [sizes; 1500; 2000; 2500; 3000; 3500; 4000; 4500; 5000];
+sizes_discrete = [20,30,40,50,75,100,125,150,200,250,300,350,400,450,...
+       500,600,700,800,900,1000]';
+       
 % Makes subfolder for the FE matrices
 if ~exist([pwd,'\GDE_FE_matrices'],'dir')
        mkdir([pwd,'\GDE_FE_matrices'])
