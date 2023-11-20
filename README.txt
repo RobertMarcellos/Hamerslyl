@@ -1,9 +1,11 @@
-The results presented in article can be replicated by running
+These MATLAB codes can be used to simulate the time evolution of aerosol number distribution undergoing condensation and coagulation processes. The finite element method is applied for the approximation method,
+
+The results presented in article "Application of finite element method to General Dynamic Equation of Aerosols (GDE-FEM 1.0) - comparison with classical numerical approximations" can be replicated by running the code
 GDE_FEM_MAIN
 
 GDE_FEM_MAIN calls for the other .m -files.
 
-In addition, the example_size_dist_evolution.m is included which can be used to try the different functions included in this package.
+In addition, the example_size_dist_evolution.m is included which can be used to test the different functions included in this package.
 
 
 FUNCTIONS EXPLAINED (Inside GDE_functions folder)
