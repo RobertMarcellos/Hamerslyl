@@ -12,7 +12,7 @@ The example_size_dist_evolution.m uses the functions provided in this package.
 The results presented in article "Application of finite element method to General Dynamic Equation of Aerosols (GDE-FEM 1.0) - comparison with classical numerical approximations" can be replicated by running the code
 
 ```sh
-GDE_FEM_MAIN
+GDE_FEM_MAIN.m
 ```
 
 ## Provided functions
