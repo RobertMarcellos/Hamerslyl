@@ -34,7 +34,7 @@ Functions for the aerosol number distribution are located in the subfolder GDE_f
 
 - CrankNicolsonGDE: Crank-Nicolson mainly designed for the FEM time evolution (Should also work with difference method).
 
--discrete_GDE_solver_ver2: Calculates solution for discrete General dynamic equation. Monomer size have to be set and a minimum particle size. 
+- discrete_GDE_solver_ver2: Calculates solution for discrete General dynamic equation. Monomer size have to be set and a minimum particle size. 
 			  Can be used to calculate only coagulation if source is set to zero.
 
 ### Plotting codes
