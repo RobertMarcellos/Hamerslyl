@@ -46,3 +46,6 @@ Functions for the aerosol number distribution are located in the subfolder GDE_f
 - `fig` : Code for configuring figures.
 
 - `PlotParticleDensityEvolution` : Colorplot with logarithmic axices.
+
+
+This code package is under MIT-license, and correct citation should be used when codes from this package are used.
