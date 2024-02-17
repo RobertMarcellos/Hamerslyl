@@ -65,8 +65,8 @@ for kk = 1:length(matrix_sizes)
     PGphi1 = epsilon*(6*ksi.^2-6*ksi);
     PGphi2 = epsilon*(-6*ksi.^2+6*ksi);
     
-%     d_PGphi1 = epsilon*(12*ksi-6);
-%     d_PGphi2 = epsilon*(-12*ksi+6);
+    d_PGphi1 = epsilon*(12*ksi-6);
+    d_PGphi2 = epsilon*(-12*ksi+6);
     
     % Matrix from the node points
     H = [1:length(g)-1;2:length(g)]';
@@ -101,24 +101,34 @@ for kk = 1:length(matrix_sizes)
             h*sum(w.*phi2.*PGphi1) h*sum(w.*phi2.*PGphi2)];
         
         % Stiffness matrices
-        k1 = -[h*sum(w.*phi1.*phi1.*dfun(gind(1)+x)) h*sum(w.*phi1.*phi2.*dfun(gind(1)+x));
-            h*sum(w.*phi2.*phi1.*dfun(gind(1)+x)) h*sum(w.*phi2.*phi2.*dfun(gind(1)+x))];
-        
-        k2 = -[sum(w.*dphi1.*phi1.*fun(gind(1)+x)) sum(w.*dphi1.*phi2.*fun(gind(1)+x));
-            sum(w.*dphi2.*phi1.*fun(gind(1)+x)) sum(w.*dphi2.*phi2.*fun(gind(1)+x))];
-        
+%         k1 = -[h*sum(w.*phi1.*phi1.*dfun(gind(1)+x)) h*sum(w.*phi1.*phi2.*dfun(gind(1)+x));
+%             h*sum(w.*phi2.*phi1.*dfun(gind(1)+x)) h*sum(w.*phi2.*phi2.*dfun(gind(1)+x))];
+%         
+%         k2 = -[sum(w.*dphi1.*phi1.*fun(gind(1)+x)) sum(w.*dphi1.*phi2.*fun(gind(1)+x));
+%             sum(w.*dphi2.*phi1.*fun(gind(1)+x)) sum(w.*dphi2.*phi2.*fun(gind(1)+x))];
+
+        k1 = [sum(w.*dphi1.*phi1.*fun(gind(1)+x)) sum(w.*dphi2.*phi1.*fun(gind(1)+x));
+            sum(w.*dphi1.*phi2.*fun(gind(1)+x)) sum(w.*dphi2.*phi2.*fun(gind(1)+x))];
+%         
         % Petrov-Galerkin stiffness matrices
-        k2_petrov = -[sum(w.*dphi1.*fun(gind(1)+x).*PGphi1) sum(w.*dphi1.*fun(gind(1)+x).*PGphi2);
-            sum(w.*dphi2.*fun(gind(1)+x).*PGphi1) sum(w.*dphi2.*fun(gind(1)+x).*PGphi2)];
         
-        k1_petrov = -[h*sum(w.*phi1.*PGphi1.*dfun(gind(1)+x)) h*sum(w.*phi1.*PGphi2.*dfun(gind(1)+x));
-            h*sum(w.*phi2.*PGphi1.*dfun(gind(1)+x)) h*sum(w.*phi2.*PGphi2.*dfun(gind(1)+x))];
+%         k2_petrov = -[sum(w.*dphi1.*fun(gind(1)+x).*PGphi1) sum(w.*dphi1.*fun(gind(1)+x).*PGphi2);
+%             sum(w.*dphi2.*fun(gind(1)+x).*PGphi1) sum(w.*dphi2.*fun(gind(1)+x).*PGphi2)];
+%         
+%         k1_petrov = -[h*sum(w.*phi1.*PGphi1.*dfun(gind(1)+x)) h*sum(w.*phi1.*PGphi2.*dfun(gind(1)+x));
+%             h*sum(w.*phi2.*PGphi1.*dfun(gind(1)+x)) h*sum(w.*phi2.*PGphi2.*dfun(gind(1)+x))];
+%         
+        k1_petrov = [sum(w.*d_PGphi1.*phi1.*fun(gind(1)+x)) sum(w.*d_PGphi2.*phi1.*fun(gind(1)+x));
+            sum(w.*d_PGphi1.*phi2.*fun(gind(1)+x)) sum(w.*d_PGphi2.*phi2.*fun(gind(1)+x))];
+        
         
         % Local FE matrix
-        k = k1 + k2;
+%         k = k1 + k2;
+        k = k1;
         
         % Local PGFE matrix
-        k_petrov = k1 + k2 + k1_petrov + k2_petrov;
+%         k_petrov = k1 + k2 + k1_petrov + k2_petrov;
+        k_petrov = k1 + k1_petrov;
         
         % Placing the local matrices into the global matrices
         K1(ind,ind)=K1(ind,ind)+k';

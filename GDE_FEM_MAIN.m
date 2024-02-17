@@ -20,16 +20,17 @@ addpath([pwd,'\GDE_functions'])
 % 2 GDE (condensation and coagulation)
 % 3 discrete GDE
 % 4 Condensation
-create = [1 1 1 1];
+create = [0 0 0 0];
 
 % FE matrix dimensions are different for the different test cases. Set here
 % the wanted sizes for different test cases.
 sizes = [25,50,75,100,125,150,200,250,300,350,400,450,500,600,700,...
-       800,900,1000]';
+    800,900,1000]';
 sizes_cond = [sizes; 1500; 2000; 2500; 3000; 3500; 4000; 4500; 5000];
 sizes_discrete = [20,30,40,50,75,100,125,150,200,250,300,350,400,450,...
-       500,600,700,800,900,1000]';
-       
+    500,600,700,800,900,1000]';
+
+
 % Makes subfolder for the FE matrices
 if ~exist([pwd,'\GDE_FE_matrices'],'dir')
        mkdir([pwd,'\GDE_FE_matrices'])
@@ -49,7 +50,7 @@ FE_matrix_creator
 % 3. Analytical GDE comparison test case
 % 4. Discrete GDE test case (Another decision parameter for this below)
 
-time_evol_calc = [1,1,1,1]';
+time_evol_calc = [0 0 0 0]';
 
 % Makes subfolder for the GDE time evolutions
 if ~exist([pwd,'\Time_evolutions'],'dir')
@@ -91,14 +92,14 @@ end
 % 2. coagulation
 % 3. GDE analytical
 % 4. discrete GDE
-plot_case = [1 1 1 1];
+plot_case = [0 1 0 0];
 
 % Choose the discretization for the figures
 discretization = [200,100,100,30];
 
 % Save format decision for the subplots
-save_format = 'png';
-% save_format = 'epsc';
+% save_format = 'png';
+save_format = 'epsc';
 
 % Creates directories for the figures of they do not exist
 if ~exist([pwd,'\figs'],'dir')

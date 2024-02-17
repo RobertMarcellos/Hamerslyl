@@ -92,9 +92,11 @@ if plot_case(1) == 1
         loglog(cond_hila,cond_PGFEM_ie,'md--','linewidth',1.5)
         loglog(cond_hila,cond_FEM_ie,'rs--','linewidth',1.5)
         ylabel('Average relative error [%]')
-        ylim([0,100])
-        yticks([0 0.1 1 10 100])
-        yticklabels({'0','0.1','1','10','100'})
+        ylim([0,101])
+        yticks([1 10 100])
+        yticklabels({'1','10','100'})
+        xticks([10 100 1000 10000])
+        xticklabels({'10' '100' '1000' '10000'})
         lgd = legend('C-N PGFEM','C-N FEM','I.E PGFEM','I.E FEM','location','best');
         lgd.FontSize = 9,5;
         legend boxoff
@@ -164,11 +166,13 @@ if plot_case(1) == 1
         semilogy(tt,error_PGFEM,'b','linewidth',1.5)
         hold on
         semilogy(tt,error_diff,'r','linewidth',1.5)
-        semilogy(tt,error_diff2,'m','linewidth',1.5)
+%         semilogy(tt,error_diff2,'m','linewidth',1.5)
         ylabel('Relative error [%]')
-        lg = legend('PGFEM','Sectional (linear)','Sectional (constant)','location','southeast')
+        lg = legend('PGFEM','Sectional','location','southeast')
         lg.FontSize = 10;
         legend boxoff
+        yticks([0.1 1 10 100])
+        yticklabels({'0.1', '1', '10', '100'})
         if jj == 1
             xlabel('Evolution time [h]')
             saveas(gcf,[save_loc,'condensation_test_case_',num2str(length(g)),'_error.png'])
@@ -240,8 +244,9 @@ if plot_case(2) == 1
         if jj == 1
             h1 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11);
         elseif jj == 2
-            H = fig('width',20,'height',22,'font','Helvetica','fontsize',11)
-            subplot(325)
+%             H = fig('width',20,'height',22,'font','Helvetica','fontsize',11)
+            H = fig('width',20,'height',20','font','Helvetica','fontsize',11)
+            subplot(223)
             
         end
         semilogy(coag_disc,coag_error_t1,'bo--','linewidth',1.5)
@@ -251,14 +256,18 @@ if plot_case(2) == 1
         semilogy(coag_disc,coag_error_t2_diff,'md--','linewidth',1.5)
         ylabel('Average relative error [%]')
         lg1 = legend('FEM, \Deltat = 1h','FEM, \Deltat = 0.1h','Sec., \Deltat = 1h',...
-            'Sec., \Deltat = 0.1h')
-        lg1.FontSize = 10;
+            'Sec., \Deltat = 0.1h','location','northeast')
+        
         legend boxoff
-        set(lg1,'Position',[0.262602877695686 ...
-            0.238648523944074 0.190476186810032 0.088447650990905])
+        if jj == 2
+        lg1.FontSize = 10;
+        set(lg1,'Position',[0.244082044362353 0.344063323002065 ...
+            0.190476186810032 0.0972222195415901]);
+        end
         ylim([0,100])
         yticks([0 0.1 1 10 100])
         yticklabels({'0','0.1','1','10','100'})
+                xticks([0 250 500 750 1000])
         
         %         saveas(gcf,[save_loc,'fig5.fig'])
         
@@ -269,8 +278,8 @@ if plot_case(2) == 1
             saveas(gcf,[save_loc,'coagulation_average_error.png'])
             h2 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11);
         elseif jj == 2
-            xlabel([{'Number of bins/elements'};{'(e)'}]);
-            subplot(326)
+            xlabel([{'Number of bins/elements'};{'(c)'}]);
+            subplot(224)
             
         end
         loglog(coag_time_t1,coag_error_t1,'bo--','linewidth',1.5)
@@ -284,8 +293,8 @@ if plot_case(2) == 1
             'Sec., \Deltat = 0.1h')
         lg2.FontSize = 10;
         legend boxoff
-        set(lg2,'Position',[0.712339484838544 ...
-            0.242256478489529 0.190476186810032 0.088447650990905])
+set(lg2,'Position',[0.693818651505211 0.34370252754752 ...
+    0.190476186810032 0.0972222195415901])
         ylim([0,100])
         yticks([0 0.1 1 10 100])
         yticklabels({'0','0.1','1','10','100'})
@@ -319,8 +328,8 @@ if plot_case(2) == 1
             h3 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11);
             
         elseif jj == 2
-            xlabel([{'Computation time [s]'};{'(f)'}])
-            subplot(321)
+            xlabel([{'Computation time [s]'};{'(d)'}])
+            subplot(221)
             
         end
         
@@ -354,13 +363,15 @@ if plot_case(2) == 1
             
         elseif jj == 2
             xlabel([{'Particle volume [\mum^3]'};{'(a)'}])
-            subplot(322)
+            subplot(222)
             
         end
         
         plot(t,error_FEM,'linewidth',1.5)
         hold on
         plot(t,error_diff,'linewidth',1.5)
+        
+        xticks([0 25 50 75 100])
         
         ylabel('Relative error [%]')
         lg = legend('FEM','Sectional','location','best');
@@ -372,22 +383,30 @@ if plot_case(2) == 1
         
         n_teor_ln = n_teor_ln(vv >= 9e-7,:);
         vv = vv(vv >= 9e-7);
+        d_new = [d;max(vv)];
+        n_diff_ln_new = [n_diff_ln;n_diff_ln(end,:)];
+        
         % Corresponding colormap plots with 100 nodes FEM solution
         for ii = 1:length(t)
             
             n_FEM_inter(:,ii) = interp1(g,n_FEM_ln(:,ii),vv,'linear');
+            n_diff_inter(:,ii) = interp1(d_new,n_diff_ln_new(:,ii),vv,'linear');
             
         end
         vv1 = vv(vv >= 9e-7);
         if jj == 1
             xlabel('Evolution time [h]')
             saveas(gcf,[save_loc,'coagulation_test_case_',num2str(length(g)),'_error.png'])
-            h5 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11,'border','on');
+            h5 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',10,'border','on');
             labels.xlab = 'Time [h]';
         elseif jj == 2
             xlabel([{'Evolution time [h]'};{'(b)'}])
-            subplot(323)
-            labels.xlab = [{'Time [h]'};{'(c)'}];
+            
+            saveas(gcf,[sl_sub,'fig3'], save_format)
+            
+            H = fig('width',20,'height',13','font','Helvetica','fontsize',11,'border','on')
+            subplot(131)
+            labels.xlab = [{'Time [h]'};{'(a)'}];
         end
         % Analytical time evolution
         %         h5 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11,'border','on');
@@ -399,9 +418,9 @@ if plot_case(2) == 1
         labels.ylab = 'Particle Volume [\mum^3]';
         labels.yscale = 'Log';
         labels.ytick = [1e-6 1e-5 1e-4 1e-3 1e-2];
-        labels.xtick = [0 16 32 48 64 80 96];
+        labels.xtick = [0 32 64 96];
         labels.clab = 'Number distribution [d N/d ln(v_p)]';
-        labels.size = 13;
+        labels.size = 11;
         labels.title = [];
         
         % Data
@@ -419,7 +438,7 @@ if plot_case(2) == 1
         pos = get(ax,'Position')
         c.Limits = [0,max(max(n_teor_ln))];
         c.Label.FontName = 'Helvetica';
-        c.Label.FontSize = 10.5;
+        c.Label.FontSize = 10;
         pos2 = [pos2(1)-0.01 pos(2) pos2(3)-0.01 pos(4)];
         c.Position = [pos2];
         pos(3) = pos2(1)-pos(1)-0.005;
@@ -430,10 +449,10 @@ if plot_case(2) == 1
         
         if jj == 1
             saveas(gcf,[save_loc,'coagulation_test_case_colorplot_analytical.png'])
-            h6 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11,'border','on');
+            h6 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',10,'border','on');
         elseif jj == 2
-            subplot(324)
-            labels.xlab = [{'Time [h]'};{'(d)'}];
+            subplot(132)
+            labels.xlab = [{'Time [h]'};{'(b)'}];
         end
         
         ImagesForScaling = [n_FEM_inter];
@@ -450,7 +469,7 @@ if plot_case(2) == 1
         pos = get(ax,'Position')
         c.Limits = [0,max(max(n_teor_ln))];
         c.Label.FontName = 'Helvetica';
-        c.Label.FontSize = 10.5;
+        c.Label.FontSize = 10;
         pos2 = [pos2(1)-0.01 pos(2) pos2(3)-0.01 pos(4)];
         c.Position = [pos2];
         pos(3) = pos2(1)-pos(1)-0.005;
@@ -458,11 +477,44 @@ if plot_case(2) == 1
         ax.XLabel.Position = [get(ax.XLabel,'position')+[17 0 0]]
         if jj == 1
             saveas(gcf,[save_loc,'coagulation_test_case_',num2str(length(g)),'_colorplot_FE.png'])
+            h6 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',9,'border','on');
             %     saveas(gcf,[save_loc,'fig4.fig'])
         elseif jj == 2
-            saveas(gcf,[sl_sub,'fig3'], save_format)
+            subplot(133)
+            labels.xlab = [{'Time [h]'};{'(c)'}];
+%             saveas(gcf,[sl_sub,'fig3'], save_format)
         end
         
+                
+        ImagesForScaling = [n_diff_inter];
+        fig2.figno = 6;
+        fig2.position = [];
+        fig2.subplot = [];
+        fig2.clf = 0;
+        c = PlotParticleDensityEvolution(n_diff_inter,imgrid,ImagesForScaling,labels,fig2);
+        pos2 = get(c,'Position')
+        ax = gca;
+        ax.FontName = 'Helvetica';
+        ax.XLabel.FontSize = 11;
+        ax.YLabel.FontSize = 11;
+        pos = get(ax,'Position')
+        c.Limits = [0,max(max(n_teor_ln))];
+        c.Label.FontName = 'Helvetica';
+        c.Label.FontSize = 10;
+        pos2 = [pos2(1)-0.01 pos(2) pos2(3)-0.01 pos(4)];
+        c.Position = [pos2];
+        pos(3) = pos2(1)-pos(1)-0.005;
+        ax.Position = pos;
+        ax.XLabel.Position = [get(ax.XLabel,'position')+[17 0 0]]
+        if jj == 1
+            saveas(gcf,[save_loc,'coagulation_test_case_',num2str(length(g)),'_colorplot_diff.png'])
+%             h6 = fig('width',12.75,'height',12,'font','Helvetica','fontsize',11,'border','on');
+            %     saveas(gcf,[save_loc,'fig4.fig'])
+        elseif jj == 2
+%             labels.xlab = [{'Time [h]'};{'(c)'}];
+            saveas(gcf,[sl_sub,'fig4'], save_format)
+%             saveas(gcf,[sl_sub,'fig3'], save_format)
+        end
     end
     
     
@@ -533,6 +585,7 @@ if plot_case(3) == 1
         yticks([0 0.1 1 10 100])
         yl.FontSize = 10;
         yticklabels({'0','0.1','1','10','100'})
+        xticks([0 250 500 750 1000])
         lgd = legend('FEM, \Deltat = 1h','FEM, \Deltat = 0.1h','Sec., \Deltat = 1h',...
             'Sec., \Deltat = 0.1h','location','best');
         lgd.FontSize = 9;
@@ -557,6 +610,8 @@ if plot_case(3) == 1
         ylim([0,100])
         yticks([0 0.1 1 10 100])
         yticklabels({'0','0.1','1','10','100'})
+        xticks([0.1 1 10 100])
+        xticklabels({'0.1','1','10','100'})
         yl.FontSize = 10;
         lgd = legend('FEM, \Deltat = 1h','FEM, \Deltat = 0.1h','Sec., \Deltat = 1h',...
             'Sec., \Deltat = 0.1h');
@@ -641,6 +696,7 @@ if plot_case(3) == 1
         plot(tt,error_FEM,'b','linewidth',1.5)
         hold on
         plot(tt,error_diff,'r','linewidth',1.5)
+        xticks([0 25 50 75 100])
         yl = ylabel('Relative error [%]');
         yl.FontSize = 10;
         lg = legend('FEM','Sectional','location','northwest')
@@ -663,6 +719,7 @@ if plot_case(3) == 1
         plot(tt,FEM_particles,'b','linewidth',1.2)
         plot(tt,diff_particles,'r','linewidth',1.2)
         lg = legend('Analytical','FEM','Sectional')
+        xticks([0 25 50 75 100])
         lg.FontSize = 10;
         legend boxoff
         
@@ -685,6 +742,7 @@ if plot_case(3) == 1
         hold on
         plot(tt,FEM_volume,'b','linewidth',1.2)
         plot(tt,diff_volume,'r','linewidth',1.2)
+        xticks([0 25 50 75 100])
         lg = legend('Analytical','FEM','Sectional','location','best');
         lg.FontSize = 10;
         legend boxoff
@@ -698,7 +756,7 @@ if plot_case(3) == 1
             
         elseif jj == 2
             xlabel([{'Evolution time [h]'};{'(c)'}])
-            saveas(gcf,[sl_sub,'fig4'], save_format)
+            saveas(gcf,[sl_sub,'fig5'], save_format)
             
         end
         
@@ -770,6 +828,8 @@ if plot_case(4) == 1
         yticks([0 0.1 1 10 100])
         yl.FontSize = 10;
         yticklabels({'0','0.1','1','10','100'})
+        xticks([10 100 1000])
+        xticklabels({'10','100','1000'})
         lgd = legend('FEM','PGFEM','Sectional','location','best');
         lgd.FontSize = 9;
         legend boxoff
@@ -784,14 +844,17 @@ if plot_case(4) == 1
             
         end
         loglog(GDE_time_t1,GDE_error_t1,'bo-','linewidth',1.5)
+        ylim([0 100])
+        xticks([0.1 1 10 100])
+        xticklabels({'0.1','1','10','100'})
+        yticks([0.1 1 10 100])
+        yticklabels({'0.1','1','10','100'})
         hold on
         loglog(GDE_PGtime_t1,GDE_PGerror_t1,'ro-','linewidth',1.5)
         loglog(GDE_time_t1_diff,GDE_error_t1_diff,'co-','linewidth',1.5)
         
         yl = ylabel('Average relative error [%]');
-        ylim([0,100])
-        yticks([0 0.1 1 10 100])
-        yticklabels({'0','0.1','1','10','100'})
+%         ylim([0,100])
         yl.FontSize = 10;
         lgd = legend('FEM','PGFEM','Sectional','location','best');
         lgd.FontSize = 9;
@@ -846,7 +909,7 @@ if plot_case(4) == 1
         xlim([10^(-9),10^(-5)])
         xticks([1e-9 1e-8 1e-7 1e-6 1e-5])
         hold on
-        semilogx(g,n_FEM_ln(:,end),'b','LineWidth',1.2)
+        semilogx(g,n_FEM_ln(:,end),'b','LineWidth',1.5)
         semilogx(g,n_PGFEM_ln(:,end),'r','LineWidth',1.2)
         semilogx(d,n_diff_ln(:,end),'c','LineWidth',1.2)
         semilogx(d_disc,n_disc_ln(:,end),'k--','LineWidth',2)
@@ -892,11 +955,11 @@ if plot_case(4) == 1
             subplot(322)
             
         end
-        plot(tt,disc_particles,'k--','linewidth',2)
+        semilogy(tt,disc_particles,'k--','linewidth',2)
         hold on
-        plot(tt,FEM_particles,'b','linewidth',1.2)
-        plot(tt,PGFEM_particles,'r','linewidth',1.2)
-        plot(tt,diff_particles,'c','linewidth',1.2)
+        semilogy(tt,FEM_particles,'b','linewidth',2.5)
+        semilogy(tt,PGFEM_particles,'r','linewidth',1.2)
+        semilogy(tt,diff_particles,'c','linewidth',1.2)
         lg = legend('Discrete','FEM','PGFEM','Sectional')
         lg.FontSize = 9;
         legend boxoff
@@ -920,11 +983,11 @@ if plot_case(4) == 1
             
         end
         
-        plot(tt,disc_volume,'k--','linewidth',2)
+        semilogy(tt,disc_volume,'k--','linewidth',2)
         hold on
-        plot(tt,FEM_volume,'b','linewidth',1.2)
-        plot(tt,FEM_volume,'r','linewidth',1.2)
-        plot(tt,diff_volume,'c','linewidth',1.2)
+        semilogy(tt,FEM_volume,'b','linewidth',2.5)
+        semilogy(tt,PGFEM_volume,'r','linewidth',1.2)
+        semilogy(tt,diff_volume,'c','linewidth',1.2)
         lg = legend('Discrete','FEM','PGFEM','Sectional','location','best');
         lg.FontSize = 9;
         legend boxoff
@@ -938,7 +1001,7 @@ if plot_case(4) == 1
             
         elseif jj == 2
             xlabel([{'Evolution time [h]'};{'(c)'}])
-            saveas(gcf,[sl_sub,'fig5'], save_format)
+            saveas(gcf,[sl_sub,'fig6'], save_format)
             
         end
         
@@ -1063,7 +1126,7 @@ if plot_case(4) == 1
     c.Position = [pos2];
     pos(3) = pos2(1)-pos(1)-0.005;
     ax.Position = pos;
-    saveas(gcf,[sl_sub,'fig6'], save_format)
+    saveas(gcf,[sl_sub,'fig7'], save_format)
     % ax.XLabel.Position = [get(ax.XLabel,'position')+[17 0 0]]
     
     
