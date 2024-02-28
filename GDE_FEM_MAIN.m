@@ -20,7 +20,7 @@ addpath([pwd,'\GDE_functions'])
 % 2 GDE (condensation and coagulation)
 % 3 discrete GDE
 % 4 Condensation
-create = [0 0 0 0];
+create = [1 1 1 1];
 
 % FE matrix dimensions are different for the different test cases. Set here
 % the wanted sizes for different test cases.
@@ -50,7 +50,7 @@ FE_matrix_creator
 % 3. Analytical GDE comparison test case
 % 4. Discrete GDE test case (Another decision parameter for this below)
 
-time_evol_calc = [0 0 0 0]';
+time_evol_calc = [1 1 1 1]';
 
 % Makes subfolder for the GDE time evolutions
 if ~exist([pwd,'\Time_evolutions'],'dir')
@@ -92,7 +92,7 @@ end
 % 2. coagulation
 % 3. GDE analytical
 % 4. discrete GDE
-plot_case = [0 1 0 0];
+plot_case = [1 1 1 1];
 
 % Choose the discretization for the figures
 discretization = [200,100,100,30];
