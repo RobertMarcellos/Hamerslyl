@@ -149,7 +149,7 @@ if create(3) == 1
     rho = rho*10^-(6*3); % kg/mum^3
     k_b = 1.3806e-23; % m^2*kg*s^-2 K ^-1 Boltzmans constant
     k_b = k_b*10^(2*6); % mum^2...
-    b = (3/(4*pi))^(1/6)*sqrt(6*k_b*T/rho)^?;
+    b = (3/(4*pi))^(1/6)*sqrt(6*k_b*T/rho);
     
     b = b*10^(-4*1); % unit convertion to cm/s
     
