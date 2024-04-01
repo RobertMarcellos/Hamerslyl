@@ -1,5 +1,7 @@
 # GDE-FEM_1.0
 
+<a href="https://doi.org/10.5281/zenodo.4769125"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4769125.svg" alt="DOI"></a>
+
 MATLAB codes for simulating the time evolution of aerosol number distribution undergoing condensation and coagulation processes. The finite element method is applied for the approximation method.
 
 Example code how to use the functions to estimate the aerosol number distribution is provided:
