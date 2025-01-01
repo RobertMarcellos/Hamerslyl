@@ -1,6 +1,6 @@
 # GDE-FEM_2.0
 
-<a href="https://doi.org/10.5281/zenodo.4769125"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4769125.svg" alt="DOI"></a>
+<a href="https://doi.org/10.5281/zenodo.8092361"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4769125.svg" alt="DOI"></a>
 
 MATLAB codes for simulating the time evolution of aerosol number distribution undergoing condensation, coagulation, removal and source processes with Finite Element Method (FEM) and Petrov-Galerkin Finite Element Method (PGFEM).
 The aerosol particles can contain multiple compounds. Temporal evolutions are calculated with the Crank-Nicolson method. Code package includes support for FEM approximation for single and multicomponent GDE. 
